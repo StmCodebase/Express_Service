@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hp.dao.EnterpriseDao">
+	
+	<select id="queryEnterprisesByExample" parameterType="String" resultType="com.hp.bean.Enterprise">
+		select * from e_enterprise
+		where CONCAT(
+			IFNULL(ENT_NO,''),
+			IFNULL(ENT_NAME,''),
+			IFNULL(ENT_ADDRESS,''),
+			IFNULL(ENT_PERSON,''),
+			IFNULL(ENT_PHONE,''),
+			IFNULL(ENT_EMAIL,''),
+			IFNULL(ENT_DATE,''))
+		LIKE "%"#{search}"%"
+	</select>
+	
+</mapper>

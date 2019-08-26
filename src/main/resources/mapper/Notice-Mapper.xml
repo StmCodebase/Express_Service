@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hp.dao.NoticeDao">
+	
+	<select id="queryNoticesByExample" parameterType="String" resultType="com.hp.bean.Notice">
+		select * from e_notice 
+		where CONCAT(			
+			IFNULL(NOTICE_NO,''),
+			IFNULL(NOTICE_TITLE,''),
+			IFNULL(NOTICE_TEXT,''),
+			IFNULL(NOTICE_TIME,''))
+		LIKE "%"#{search}"%"
+	</select>
+	
+</mapper>

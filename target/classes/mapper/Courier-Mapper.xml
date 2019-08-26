@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hp.dao.CourierDao">
+	
+	<select id="queryCouriersByExample" parameterType="String" resultType="com.hp.bean.Courier">
+		select * from e_courier 
+		where CONCAT(
+			IFNULL(COURIER_NO,''),
+			IFNULL(STA_NO,''),
+			IFNULL(COURIER_NAME,''),
+			IFNULL(COURIER_PHONE,''),
+			IFNULL(COURIER_SEX,''),
+			IFNULL(COURIER_EMAIL,''),
+			IFNULL(COURIER_NUM,'')) 
+		LIKE "%"#{search}"%"
+	</select>
+	
+</mapper>

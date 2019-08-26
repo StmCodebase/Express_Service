@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hp.dao.NoticeMapper">
+  <resultMap id="BaseResultMap" type="com.hp.bean.Notice">
+    <id column="NOTICE_NO" jdbcType="INTEGER" property="noticeNo" />
+    <result column="NOTICE_TITLE" jdbcType="VARCHAR" property="noticeTitle" />
+    <result column="NOTICE_TIME" jdbcType="TIMESTAMP" property="noticeTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.hp.bean.Notice">
+    <result column="NOTICE_TEXT" jdbcType="LONGVARCHAR" property="noticeText" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    NOTICE_NO, NOTICE_TITLE, NOTICE_TIME
+  </sql>
+  <sql id="Blob_Column_List">
+    NOTICE_TEXT
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.hp.bean.NoticeExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from e_notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.hp.bean.NoticeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from e_notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from e_notice
+    where NOTICE_NO = #{noticeNo,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from e_notice
+    where NOTICE_NO = #{noticeNo,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hp.bean.NoticeExample">
+    delete from e_notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hp.bean.Notice">
+    insert into e_notice (NOTICE_NO, NOTICE_TITLE, NOTICE_TIME, 
+      NOTICE_TEXT)
+    values (#{noticeNo,jdbcType=INTEGER}, #{noticeTitle,jdbcType=VARCHAR}, #{noticeTime,jdbcType=TIMESTAMP}, 
+      #{noticeText,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hp.bean.Notice">
+    insert into e_notice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="noticeNo != null">
+        NOTICE_NO,
+      </if>
+      <if test="noticeTitle != null">
+        NOTICE_TITLE,
+      </if>
+      <if test="noticeTime != null">
+        NOTICE_TIME,
+      </if>
+      <if test="noticeText != null">
+        NOTICE_TEXT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="noticeNo != null">
+        #{noticeNo,jdbcType=INTEGER},
+      </if>
+      <if test="noticeTitle != null">
+        #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeTime != null">
+        #{noticeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="noticeText != null">
+        #{noticeText,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hp.bean.NoticeExample" resultType="java.lang.Long">
+    select count(*) from e_notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update e_notice
+    <set>
+      <if test="record.noticeNo != null">
+        NOTICE_NO = #{record.noticeNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.noticeTitle != null">
+        NOTICE_TITLE = #{record.noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeTime != null">
+        NOTICE_TIME = #{record.noticeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.noticeText != null">
+        NOTICE_TEXT = #{record.noticeText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update e_notice
+    set NOTICE_NO = #{record.noticeNo,jdbcType=INTEGER},
+      NOTICE_TITLE = #{record.noticeTitle,jdbcType=VARCHAR},
+      NOTICE_TIME = #{record.noticeTime,jdbcType=TIMESTAMP},
+      NOTICE_TEXT = #{record.noticeText,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update e_notice
+    set NOTICE_NO = #{record.noticeNo,jdbcType=INTEGER},
+      NOTICE_TITLE = #{record.noticeTitle,jdbcType=VARCHAR},
+      NOTICE_TIME = #{record.noticeTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.hp.bean.Notice">
+    update e_notice
+    <set>
+      <if test="noticeTitle != null">
+        NOTICE_TITLE = #{noticeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeTime != null">
+        NOTICE_TIME = #{noticeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="noticeText != null">
+        NOTICE_TEXT = #{noticeText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where NOTICE_NO = #{noticeNo,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hp.bean.Notice">
+    update e_notice
+    set NOTICE_TITLE = #{noticeTitle,jdbcType=VARCHAR},
+      NOTICE_TIME = #{noticeTime,jdbcType=TIMESTAMP},
+      NOTICE_TEXT = #{noticeText,jdbcType=LONGVARCHAR}
+    where NOTICE_NO = #{noticeNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hp.bean.Notice">
+    update e_notice
+    set NOTICE_TITLE = #{noticeTitle,jdbcType=VARCHAR},
+      NOTICE_TIME = #{noticeTime,jdbcType=TIMESTAMP}
+    where NOTICE_NO = #{noticeNo,jdbcType=INTEGER}
+  </update>
+</mapper>

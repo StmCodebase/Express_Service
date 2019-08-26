@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hp.dao.UserDao">
+	
+	<select id="queryUsersByExample" parameterType="String" resultType="com.hp.bean.User">
+		select * from e_user 
+		where CONCAT(			
+			IFNULL(U_NO,''),
+			IFNULL(ACC_NO,''),
+			IFNULL(G_NO,''),
+			IFNULL(U_NAME,''),
+			IFNULL(U_EMAIL,''),
+			IFNULL(U_PHONE,''),
+			IFNULL(U_SEX,''),
+			IFNULL(U_NUM,''))
+		LIKE "%"#{search}"%"
+	</select>
+	
+</mapper>

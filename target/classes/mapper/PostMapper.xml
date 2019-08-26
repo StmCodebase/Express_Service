@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hp.dao.PostMapper">
+  <resultMap id="BaseResultMap" type="com.hp.bean.Post">
+    <id column="PO_NO" jdbcType="INTEGER" property="poNo" />
+    <result column="CNO_STAR" jdbcType="INTEGER" property="cnoStar" />
+    <result column="PO_STAR_ADDRESS" jdbcType="VARCHAR" property="poStarAddress" />
+    <result column="PO_SENDER" jdbcType="VARCHAR" property="poSender" />
+    <result column="PO_SENDER_PHONE" jdbcType="VARCHAR" property="poSenderPhone" />
+    <result column="COURIER_STAR" jdbcType="INTEGER" property="courierStar" />
+    <result column="PO_STAR_TIME" jdbcType="TIMESTAMP" property="poStarTime" />
+    <result column="PO_PRICE" jdbcType="VARCHAR" property="poPrice" />
+    <result column="CNO_END" jdbcType="INTEGER" property="cnoEnd" />
+    <result column="PO_END_ADDRESS" jdbcType="VARCHAR" property="poEndAddress" />
+    <result column="PO_ADDRESSEE" jdbcType="VARCHAR" property="poAddressee" />
+    <result column="PO_ADDRESSEE_PHONE" jdbcType="VARCHAR" property="poAddresseePhone" />
+    <result column="COURIER_END" jdbcType="INTEGER" property="courierEnd" />
+    <result column="PO_END_TIME" jdbcType="TIMESTAMP" property="poEndTime" />
+    <result column="PO_WEIGHT" jdbcType="REAL" property="poWeight" />
+    <result column="PO_PAY" jdbcType="VARCHAR" property="poPay" />
+    <result column="PO_APPRAISE" jdbcType="VARCHAR" property="poAppraise" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    PO_NO, CNO_STAR, PO_STAR_ADDRESS, PO_SENDER, PO_SENDER_PHONE, COURIER_STAR, PO_STAR_TIME, 
+    PO_PRICE, CNO_END, PO_END_ADDRESS, PO_ADDRESSEE, PO_ADDRESSEE_PHONE, COURIER_END, 
+    PO_END_TIME, PO_WEIGHT, PO_PAY, PO_APPRAISE
+  </sql>
+  <select id="selectByExample" parameterType="com.hp.bean.PostExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from e_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from e_post
+    where PO_NO = #{poNo,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from e_post
+    where PO_NO = #{poNo,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hp.bean.PostExample">
+    delete from e_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hp.bean.Post">
+    insert into e_post (PO_NO, CNO_STAR, PO_STAR_ADDRESS, 
+      PO_SENDER, PO_SENDER_PHONE, COURIER_STAR, 
+      PO_STAR_TIME, PO_PRICE, CNO_END, 
+      PO_END_ADDRESS, PO_ADDRESSEE, PO_ADDRESSEE_PHONE, 
+      COURIER_END, PO_END_TIME, PO_WEIGHT, 
+      PO_PAY, PO_APPRAISE)
+    values (#{poNo,jdbcType=INTEGER}, #{cnoStar,jdbcType=INTEGER}, #{poStarAddress,jdbcType=VARCHAR}, 
+      #{poSender,jdbcType=VARCHAR}, #{poSenderPhone,jdbcType=VARCHAR}, #{courierStar,jdbcType=INTEGER}, 
+      #{poStarTime,jdbcType=TIMESTAMP}, #{poPrice,jdbcType=VARCHAR}, #{cnoEnd,jdbcType=INTEGER}, 
+      #{poEndAddress,jdbcType=VARCHAR}, #{poAddressee,jdbcType=VARCHAR}, #{poAddresseePhone,jdbcType=VARCHAR}, 
+      #{courierEnd,jdbcType=INTEGER}, #{poEndTime,jdbcType=TIMESTAMP}, #{poWeight,jdbcType=REAL}, 
+      #{poPay,jdbcType=VARCHAR}, #{poAppraise,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hp.bean.Post">
+    insert into e_post
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="poNo != null">
+        PO_NO,
+      </if>
+      <if test="cnoStar != null">
+        CNO_STAR,
+      </if>
+      <if test="poStarAddress != null">
+        PO_STAR_ADDRESS,
+      </if>
+      <if test="poSender != null">
+        PO_SENDER,
+      </if>
+      <if test="poSenderPhone != null">
+        PO_SENDER_PHONE,
+      </if>
+      <if test="courierStar != null">
+        COURIER_STAR,
+      </if>
+      <if test="poStarTime != null">
+        PO_STAR_TIME,
+      </if>
+      <if test="poPrice != null">
+        PO_PRICE,
+      </if>
+      <if test="cnoEnd != null">
+        CNO_END,
+      </if>
+      <if test="poEndAddress != null">
+        PO_END_ADDRESS,
+      </if>
+      <if test="poAddressee != null">
+        PO_ADDRESSEE,
+      </if>
+      <if test="poAddresseePhone != null">
+        PO_ADDRESSEE_PHONE,
+      </if>
+      <if test="courierEnd != null">
+        COURIER_END,
+      </if>
+      <if test="poEndTime != null">
+        PO_END_TIME,
+      </if>
+      <if test="poWeight != null">
+        PO_WEIGHT,
+      </if>
+      <if test="poPay != null">
+        PO_PAY,
+      </if>
+      <if test="poAppraise != null">
+        PO_APPRAISE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="poNo != null">
+        #{poNo,jdbcType=INTEGER},
+      </if>
+      <if test="cnoStar != null">
+        #{cnoStar,jdbcType=INTEGER},
+      </if>
+      <if test="poStarAddress != null">
+        #{poStarAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="poSender != null">
+        #{poSender,jdbcType=VARCHAR},
+      </if>
+      <if test="poSenderPhone != null">
+        #{poSenderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="courierStar != null">
+        #{courierStar,jdbcType=INTEGER},
+      </if>
+      <if test="poStarTime != null">
+        #{poStarTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poPrice != null">
+        #{poPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="cnoEnd != null">
+        #{cnoEnd,jdbcType=INTEGER},
+      </if>
+      <if test="poEndAddress != null">
+        #{poEndAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="poAddressee != null">
+        #{poAddressee,jdbcType=VARCHAR},
+      </if>
+      <if test="poAddresseePhone != null">
+        #{poAddresseePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="courierEnd != null">
+        #{courierEnd,jdbcType=INTEGER},
+      </if>
+      <if test="poEndTime != null">
+        #{poEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poWeight != null">
+        #{poWeight,jdbcType=REAL},
+      </if>
+      <if test="poPay != null">
+        #{poPay,jdbcType=VARCHAR},
+      </if>
+      <if test="poAppraise != null">
+        #{poAppraise,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hp.bean.PostExample" resultType="java.lang.Long">
+    select count(*) from e_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update e_post
+    <set>
+      <if test="record.poNo != null">
+        PO_NO = #{record.poNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.cnoStar != null">
+        CNO_STAR = #{record.cnoStar,jdbcType=INTEGER},
+      </if>
+      <if test="record.poStarAddress != null">
+        PO_STAR_ADDRESS = #{record.poStarAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poSender != null">
+        PO_SENDER = #{record.poSender,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poSenderPhone != null">
+        PO_SENDER_PHONE = #{record.poSenderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courierStar != null">
+        COURIER_STAR = #{record.courierStar,jdbcType=INTEGER},
+      </if>
+      <if test="record.poStarTime != null">
+        PO_STAR_TIME = #{record.poStarTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.poPrice != null">
+        PO_PRICE = #{record.poPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cnoEnd != null">
+        CNO_END = #{record.cnoEnd,jdbcType=INTEGER},
+      </if>
+      <if test="record.poEndAddress != null">
+        PO_END_ADDRESS = #{record.poEndAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poAddressee != null">
+        PO_ADDRESSEE = #{record.poAddressee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poAddresseePhone != null">
+        PO_ADDRESSEE_PHONE = #{record.poAddresseePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.courierEnd != null">
+        COURIER_END = #{record.courierEnd,jdbcType=INTEGER},
+      </if>
+      <if test="record.poEndTime != null">
+        PO_END_TIME = #{record.poEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.poWeight != null">
+        PO_WEIGHT = #{record.poWeight,jdbcType=REAL},
+      </if>
+      <if test="record.poPay != null">
+        PO_PAY = #{record.poPay,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poAppraise != null">
+        PO_APPRAISE = #{record.poAppraise,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update e_post
+    set PO_NO = #{record.poNo,jdbcType=INTEGER},
+      CNO_STAR = #{record.cnoStar,jdbcType=INTEGER},
+      PO_STAR_ADDRESS = #{record.poStarAddress,jdbcType=VARCHAR},
+      PO_SENDER = #{record.poSender,jdbcType=VARCHAR},
+      PO_SENDER_PHONE = #{record.poSenderPhone,jdbcType=VARCHAR},
+      COURIER_STAR = #{record.courierStar,jdbcType=INTEGER},
+      PO_STAR_TIME = #{record.poStarTime,jdbcType=TIMESTAMP},
+      PO_PRICE = #{record.poPrice,jdbcType=VARCHAR},
+      CNO_END = #{record.cnoEnd,jdbcType=INTEGER},
+      PO_END_ADDRESS = #{record.poEndAddress,jdbcType=VARCHAR},
+      PO_ADDRESSEE = #{record.poAddressee,jdbcType=VARCHAR},
+      PO_ADDRESSEE_PHONE = #{record.poAddresseePhone,jdbcType=VARCHAR},
+      COURIER_END = #{record.courierEnd,jdbcType=INTEGER},
+      PO_END_TIME = #{record.poEndTime,jdbcType=TIMESTAMP},
+      PO_WEIGHT = #{record.poWeight,jdbcType=REAL},
+      PO_PAY = #{record.poPay,jdbcType=VARCHAR},
+      PO_APPRAISE = #{record.poAppraise,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hp.bean.Post">
+    update e_post
+    <set>
+      <if test="cnoStar != null">
+        CNO_STAR = #{cnoStar,jdbcType=INTEGER},
+      </if>
+      <if test="poStarAddress != null">
+        PO_STAR_ADDRESS = #{poStarAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="poSender != null">
+        PO_SENDER = #{poSender,jdbcType=VARCHAR},
+      </if>
+      <if test="poSenderPhone != null">
+        PO_SENDER_PHONE = #{poSenderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="courierStar != null">
+        COURIER_STAR = #{courierStar,jdbcType=INTEGER},
+      </if>
+      <if test="poStarTime != null">
+        PO_STAR_TIME = #{poStarTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poPrice != null">
+        PO_PRICE = #{poPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="cnoEnd != null">
+        CNO_END = #{cnoEnd,jdbcType=INTEGER},
+      </if>
+      <if test="poEndAddress != null">
+        PO_END_ADDRESS = #{poEndAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="poAddressee != null">
+        PO_ADDRESSEE = #{poAddressee,jdbcType=VARCHAR},
+      </if>
+      <if test="poAddresseePhone != null">
+        PO_ADDRESSEE_PHONE = #{poAddresseePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="courierEnd != null">
+        COURIER_END = #{courierEnd,jdbcType=INTEGER},
+      </if>
+      <if test="poEndTime != null">
+        PO_END_TIME = #{poEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="poWeight != null">
+        PO_WEIGHT = #{poWeight,jdbcType=REAL},
+      </if>
+      <if test="poPay != null">
+        PO_PAY = #{poPay,jdbcType=VARCHAR},
+      </if>
+      <if test="poAppraise != null">
+        PO_APPRAISE = #{poAppraise,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PO_NO = #{poNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hp.bean.Post">
+    update e_post
+    set CNO_STAR = #{cnoStar,jdbcType=INTEGER},
+      PO_STAR_ADDRESS = #{poStarAddress,jdbcType=VARCHAR},
+      PO_SENDER = #{poSender,jdbcType=VARCHAR},
+      PO_SENDER_PHONE = #{poSenderPhone,jdbcType=VARCHAR},
+      COURIER_STAR = #{courierStar,jdbcType=INTEGER},
+      PO_STAR_TIME = #{poStarTime,jdbcType=TIMESTAMP},
+      PO_PRICE = #{poPrice,jdbcType=VARCHAR},
+      CNO_END = #{cnoEnd,jdbcType=INTEGER},
+      PO_END_ADDRESS = #{poEndAddress,jdbcType=VARCHAR},
+      PO_ADDRESSEE = #{poAddressee,jdbcType=VARCHAR},
+      PO_ADDRESSEE_PHONE = #{poAddresseePhone,jdbcType=VARCHAR},
+      COURIER_END = #{courierEnd,jdbcType=INTEGER},
+      PO_END_TIME = #{poEndTime,jdbcType=TIMESTAMP},
+      PO_WEIGHT = #{poWeight,jdbcType=REAL},
+      PO_PAY = #{poPay,jdbcType=VARCHAR},
+      PO_APPRAISE = #{poAppraise,jdbcType=VARCHAR}
+    where PO_NO = #{poNo,jdbcType=INTEGER}
+  </update>
+</mapper>
